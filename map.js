@@ -35,7 +35,7 @@ var map = new ol.Map({
             'Support the project on <a href="https://www.patreon.com/fantasyatlas?fan_landing=true/">Patreon</a>'
           ],
         url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-tiles/main/{z}/{y}/{x}.jpg',
-        maxZoom: 15,
+        maxZoom: 20,
       })
     }),
     new ol.layer.Vector({
