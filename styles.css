@@ -26,7 +26,7 @@ html, body, #map {
   text-align: center;
 }
 
-.dablink, .pi-navigation, #scroll-banner, .toc, .thumbcaption, .thumb, .noprint, #Gallery, #gallery-0, #External_Links  {
+.dablink, .pi-navigation, #scroll-banner, .toc, .thumbcaption, .thumb, .noprint, #Gallery, #gallery-0, #External_Links, .pi-caption, .pi-image-thumbnail  {
   display: none; /* Hidden by default */
 }
 
