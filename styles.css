@@ -6,4 +6,9 @@ html, body, #map {
   height: 100%;
   width: 100%;
 }
-
+.popover-body {
+    /*min-width: 500px;*/
+    overflow-y: auto;
+    overflow-x: auto;
+    /*white-space:pre-wrap;*/
+}

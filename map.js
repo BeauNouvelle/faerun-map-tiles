@@ -87,6 +87,134 @@ var map = new ol.Map({
   }),
   // controls: ol.control.defaults({ attribution: false}).extend([attribution])
 });
-map.on('click', function(evt){
-    console.log(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'));
+
+// Popup showing the position the user clicked
+const coordPopup = new ol.Overlay({
+  element: document.getElementById('coordpopup'),
 });
+map.addOverlay(coordPopup);
+
+map.on('click', function (evt) {
+  const element = coordPopup.getElement();
+  const coordinate = evt.coordinate;
+  const hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(coordinate));
+
+  $(element).popover('dispose');
+  coordPopup.setPosition(coordinate);
+  $(element).popover({
+    container: element,
+    placement: 'top',
+    animation: false,
+    html: true,
+    content: '</code>' + '[' + ol.proj.toLonLat(coordinate) + ']' + '</code>',
+  });
+  $(element).popover('show');
+});
+
+var featElement = document.getElementById('featurepopup');
+
+var featPopup = new ol.Overlay({
+    element: featElement,
+    stopEvent: false
+});
+map.addOverlay(featPopup);
+
+// display popup on Feature click
+map.on('click', function (evt) {
+    $(featElement).popover('dispose');
+
+    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+      if (feature.get('style') == 'city') {
+        return feature;
+      };
+    });
+
+    if (feature) {
+        var name = feature.get('name');
+        var style = feature.get('style');
+        var coordinates = feature.getGeometry().getCoordinates();
+        featPopup.setPosition(coordinates);
+
+      $.ajax({
+        url: 'http://forgottenrealms.fandom.com/api.php',
+        dataType: 'jsonp',
+        data: {
+          page: name,
+          prop: "text",
+          redirects: !0,
+          action: "parse",
+          format: "json"
+        }
+      }).done(function(o) {
+        if (o.parse && o.parse.text) {
+          var n = o.parse.text["*"];
+          var t = parse_wiki_html(n);
+
+          $(featElement).popover({
+            title: name,
+            container: featElement,
+            animation: false,
+            sanitize: false,
+            html: true,
+            content: n
+          });
+          $(featElement).popover('show');
+        }
+      });
+    } else {
+        $(featElement).popover('dispose');
+    }
+});
+
+function parse_wiki_html(e) {
+  var t = $("<div></div>").html(e);
+  t.find("a").each(function() {
+    $(this).replaceWith($(this).html())
+  });
+  var o = new RegExp("^(?:[a-z]+:)?//", "i");
+  return t.find("img").not('[src^="http"],[src^="https"]').each(function() {
+    $(this).attr("src", function(e, t) {
+        return o.test(t) ? void 0 : "http://forgottenrealms.fandom.com/api.php" + t
+    })
+  }), t.find("sup").remove(), t.find(".mw-ext-cite-error").remove(), t.find(".mw-editsection").remove(), t
+}
+
+function details_in_popup(link, div_id) {
+    $.ajax({
+        url: link,
+        success: function(response){
+            $('#'+div_id).html(response);
+        }
+    });
+    return '<div id="'+ div_id +'">Loading...</div>';
+}
+
+
+//         }).done(function(o) {
+//             if (o.parse && o.parse.text) {
+//                 try {
+//                     var n = o.parse.text["*"],
+//                         i = FantasyMap.options.wiki.wikiParseMarkup(n),
+//                         r = $("<h2>", {
+//                             text: e
+//                         }),
+//                         a = i.prepend(r).html();
+//                     t.setContent(a)
+//                 } catch (s) {
+//                     throw ga("send", "exception", {
+//                         exDescription: s.message,
+//                         exFatal: !0
+//                     }), s
+//                 }
+//                 ga("send", {
+//                     hitType: "pageview",
+//                     page: document.location.pathname + "#" + encodeURIComponent(e),
+//                     title: e
+//                 })
+//             } else
+//                 t.setContent("No references found for " + e),
+//                 ga("send", {
+//                     hitType: "pageview",
+//                     page: document.location.pathname + "#404",
+//                     title: e
+//                 })
