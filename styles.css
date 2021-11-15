@@ -7,8 +7,41 @@ html, body, #map {
   width: 100%;
 }
 .popover-body {
-    /*min-width: 500px;*/
-    overflow-y: auto;
-    overflow-x: auto;
-    /*white-space:pre-wrap;*/
+  /*min-width: 500px;*/
+  overflow-y: auto;
+  overflow-x: auto;
+  /*white-space:pre-wrap;*/
+}
+
+.pi-image-thumbnail {
+  width: 50%;
+  height: auto;
+  display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pi-caption {
+  width: 100%;
+  text-align: center;
+}
+
+.dablink, .pi-navigation, #scroll-banner, .toc, .thumbcaption, .thumb, .noprint, #Gallery, #gallery-0, #External_Links  {
+  display: none; /* Hidden by default */
+}
+
+#overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  /*width: 25%; */
+  max-width: 30%;
+  height: 100%; 
+  top: 0; 
+  left: 0;
+  padding: 25px;
+  overflow: auto;
+  right: 0;
+  bottom: 0;
+  background-color: white; /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
 }

@@ -29,57 +29,57 @@ const streetStyle = new ol.style.Style({
 var map = new ol.Map({
   target: 'map',
   layers: [
-    new ol.layer.Tile({
-      source: new ol.source.XYZ({
-        attributions: [
-            'Support the project on <a href="https://www.patreon.com/fantasyatlas?fan_landing=true/">Patreon</a>'
-          ],
-        url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-tiles/main/{z}/{y}/{x}.jpg',
-        maxZoom: 20,
-      })
+  new ol.layer.Tile({
+    source: new ol.source.XYZ({
+      attributions: [
+      'Support the project on <a href="https://www.patreon.com/fantasyatlas?fan_landing=true/">Patreon</a>'
+      ],
+      url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-tiles/main/{z}/{y}/{x}.jpg',
+      maxZoom: 20,
+    })
+  }),
+  new ol.layer.Vector({
+    declutter: true,
+    source: new ol.source.Vector({
+      format: new ol.format.GeoJSON(),
+      url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/roads.geojson',
     }),
-    new ol.layer.Vector({
-      declutter: true,
-      source: new ol.source.Vector({
-        format: new ol.format.GeoJSON(),
-        url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/roads.geojson',
-      }),
-      style: function (feature) {
-        streetStyle.getText().setText(feature.get('name'));
-        return streetStyle;
-      },
+    style: function (feature) {
+      streetStyle.getText().setText(feature.get('name'));
+      return streetStyle;
+    },
+  }),
+  new ol.layer.Vector({
+    declutter: true,
+    source: new ol.source.Vector({
+      format: new ol.format.GeoJSON(),
+      url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/regions.geojson',
     }),
-    new ol.layer.Vector({
-      declutter: true,
-      source: new ol.source.Vector({
-        format: new ol.format.GeoJSON(),
-        url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/regions.geojson',
-      }),
-      style: function (feature) {
-        regionStyle.getText().setText(feature.get('name'));
-        return regionStyle;
-      },
-    }),
+    style: function (feature) {
+      regionStyle.getText().setText(feature.get('name'));
+      return regionStyle;
+    },
+  }),
 
-    new ol.layer.Vector({
-        declutter: true,
-        source: new ol.source.Vector({
-        format: new ol.format.GeoJSON(),
-        url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/cities.geojson',
-      }),
-      style: function(feature) {
-        return new ol.style.Style({
-            image: new ol.style.Icon({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
+  new ol.layer.Vector({
+    declutter: true,
+    source: new ol.source.Vector({
+      format: new ol.format.GeoJSON(),
+      url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/cities.geojson',
+    }),
+    style: function(feature) {
+      return new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 46],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
             // we will need more of these for different types of pois. Put this in the geojson.
             // Also need mouse over on markers.
             src: 'https://openlayers.org/en/latest/examples/data/icon.png'
           })
-        });
-      }
-    })
+      });
+    }
+  })
   ],
   view: new ol.View({
     center: ol.proj.fromLonLat([-74.76219340955835, 38.689597526996266]),
@@ -114,56 +114,44 @@ map.on('click', function (evt) {
 var featElement = document.getElementById('featurepopup');
 
 var featPopup = new ol.Overlay({
-    element: featElement,
-    stopEvent: false
+  element: featElement,
+  stopEvent: false
 });
 map.addOverlay(featPopup);
 
-// display popup on Feature click
+// display overlay on Feature click
 map.on('click', function (evt) {
-    $(featElement).popover('dispose');
+  var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+    if (feature.get('style') == 'city') {
+      return feature;
+    };
+  });
 
-    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-      if (feature.get('style') == 'city') {
-        return feature;
-      };
+  if (feature) {
+    var name = feature.get('name');
+    var style = feature.get('style');
+
+    $.ajax({
+      url: 'http://forgottenrealms.fandom.com/api.php',
+      dataType: 'jsonp',
+      data: {
+        page: name,
+        prop: "text",
+        redirects: !0,
+        action: "parse",
+        format: "json"
+      }
+    }).done(function(o) {
+      if (o.parse && o.parse.text) {
+        var n = o.parse.text["*"];
+        var t = parse_wiki_html(n);
+        $('#overlay').html(t);
+        document.getElementById("overlay").style.display = "block";
+      }
     });
-
-    if (feature) {
-        var name = feature.get('name');
-        var style = feature.get('style');
-        var coordinates = feature.getGeometry().getCoordinates();
-        featPopup.setPosition(coordinates);
-
-      $.ajax({
-        url: 'http://forgottenrealms.fandom.com/api.php',
-        dataType: 'jsonp',
-        data: {
-          page: name,
-          prop: "text",
-          redirects: !0,
-          action: "parse",
-          format: "json"
-        }
-      }).done(function(o) {
-        if (o.parse && o.parse.text) {
-          var n = o.parse.text["*"];
-          var t = parse_wiki_html(n);
-
-          $(featElement).popover({
-            title: name,
-            container: featElement,
-            animation: false,
-            sanitize: false,
-            html: true,
-            content: n
-          });
-          $(featElement).popover('show');
-        }
-      });
-    } else {
-        $(featElement).popover('dispose');
-    }
+  } else {
+    document.getElementById("overlay").style.display = "none";
+  }
 });
 
 function parse_wiki_html(e) {
@@ -174,47 +162,17 @@ function parse_wiki_html(e) {
   var o = new RegExp("^(?:[a-z]+:)?//", "i");
   return t.find("img").not('[src^="http"],[src^="https"]').each(function() {
     $(this).attr("src", function(e, t) {
-        return o.test(t) ? void 0 : "http://forgottenrealms.fandom.com/api.php" + t
+      return o.test(t) ? void 0 : "http://forgottenrealms.fandom.com/api.php" + t
     })
   }), t.find("sup").remove(), t.find(".mw-ext-cite-error").remove(), t.find(".mw-editsection").remove(), t
 }
 
 function details_in_popup(link, div_id) {
-    $.ajax({
-        url: link,
-        success: function(response){
-            $('#'+div_id).html(response);
-        }
-    });
-    return '<div id="'+ div_id +'">Loading...</div>';
+  $.ajax({
+    url: link,
+    success: function(response){
+      $('#'+div_id).html(response);
+    }
+  });
+  return '<div id="'+ div_id +'">Loading...</div>';
 }
-
-
-//         }).done(function(o) {
-//             if (o.parse && o.parse.text) {
-//                 try {
-//                     var n = o.parse.text["*"],
-//                         i = FantasyMap.options.wiki.wikiParseMarkup(n),
-//                         r = $("<h2>", {
-//                             text: e
-//                         }),
-//                         a = i.prepend(r).html();
-//                     t.setContent(a)
-//                 } catch (s) {
-//                     throw ga("send", "exception", {
-//                         exDescription: s.message,
-//                         exFatal: !0
-//                     }), s
-//                 }
-//                 ga("send", {
-//                     hitType: "pageview",
-//                     page: document.location.pathname + "#" + encodeURIComponent(e),
-//                     title: e
-//                 })
-//             } else
-//                 t.setContent("No references found for " + e),
-//                 ga("send", {
-//                     hitType: "pageview",
-//                     page: document.location.pathname + "#404",
-//                     title: e
-//                 })
