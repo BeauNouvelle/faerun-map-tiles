@@ -132,7 +132,7 @@ map.on('click', function (evt) {
     var style = feature.get('style');
 
     $.ajax({
-      url: 'http://forgottenrealms.fandom.com/api.php',
+      url: 'https://forgottenrealms.fandom.com/api.php',
       dataType: 'jsonp',
       data: {
         page: name,
@@ -162,7 +162,7 @@ function parse_wiki_html(e) {
   var o = new RegExp("^(?:[a-z]+:)?//", "i");
   return t.find("img").not('[src^="http"],[src^="https"]').each(function() {
     $(this).attr("src", function(e, t) {
-      return o.test(t) ? void 0 : "http://forgottenrealms.fandom.com/api.php" + t
+      return o.test(t) ? void 0 : "https://forgottenrealms.fandom.com/api.php" + t
     })
   }), t.find("sup").remove(), t.find(".mw-ext-cite-error").remove(), t.find(".mw-editsection").remove(), t
 }
