@@ -89,26 +89,37 @@ var map = new ol.Map({
 });
 
 // Popup showing the position the user clicked
+var coordElement = document.getElementById('coordpopup');
 const coordPopup = new ol.Overlay({
   element: document.getElementById('coordpopup'),
 });
 map.addOverlay(coordPopup);
 
-map.on('click', function (evt) {
-  const element = coordPopup.getElement();
-  const coordinate = evt.coordinate;
-  const hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(coordinate));
-
-  $(element).popover('dispose');
-  coordPopup.setPosition(coordinate);
-  $(element).popover({
-    container: element,
-    placement: 'top',
-    animation: false,
-    html: true,
-    content: '</code>' + '[' + ol.proj.toLonLat(coordinate) + ']' + '</code>',
+map.on('pointermove', function (evt) {
+  var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+    if (feature.get('style') == 'city') {
+      return feature;
+    };
   });
-  $(element).popover('show');
+
+  if (feature) {
+    var name = feature.get('name');
+    var style = feature.get('style');
+    var coordinates = feature.getGeometry().getCoordinates();
+
+    $(coordElement).tooltip('dispose');
+    coordPopup.setPosition(coordinates);
+    $(coordElement).tooltip({
+      container: coordElement,
+      placement: 'top',
+      animation: false,
+      html: true,
+      title: '<h3>'+name+'</h3>',
+    });
+    $(coordElement).tooltip('show');
+  } else {
+    $(coordElement).tooltip('dispose');
+  }
 });
 
 var featElement = document.getElementById('featurepopup');
@@ -171,34 +182,34 @@ function parse_wiki_html(e) {
 
 var i = 0;
 var dragging = false;
-   $('#dragbar').mousedown(function(e){
-       e.preventDefault();
-       
-       dragging = true;
-       var main = $('#main');
-       var ghostbar = $('<div>',
-                        {id:'ghostbar',
-                         css: {
-                                height: main.outerHeight(),
-                                top: main.offset().top,
-                                left: main.offset().left
-                               }
-                        }).appendTo('body');
-       
-        $(document).mousemove(function(e){
-          ghostbar.css("left",e.pageX+2);
-       });
-    });
+$('#dragbar').mousedown(function(e){
+ e.preventDefault();
 
-   $(document).mouseup(function(e){
-       if (dragging) 
-       {
-           $('#sidebar').css("width",e.pageX+2);
+ dragging = true;
+ var main = $('#main');
+ var ghostbar = $('<div>',
+  {id:'ghostbar',
+  css: {
+    height: main.outerHeight(),
+    top: main.offset().top,
+    left: main.offset().left
+  }
+}).appendTo('body');
+
+ $(document).mousemove(function(e){
+  ghostbar.css("left",e.pageX+2);
+});
+});
+
+$(document).mouseup(function(e){
+ if (dragging) 
+ {
+   $('#sidebar').css("width",e.pageX+2);
            // $('#main').css("left",e.pageX+2);
            $('#ghostbar').remove();
            $(document).unbind('mousemove');
            dragging = false;
-       }
-    });
+         }
+       });
 
 

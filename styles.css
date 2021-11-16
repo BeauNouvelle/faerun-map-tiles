@@ -6,6 +6,11 @@ html, body, #map {
   height: 100%;
   width: 100%;
 }
+
+.tooltip {
+  pointer-events: none;
+}
+
 /*.popover-body {
   /*min-width: 500px;*/
   overflow-y: auto;
