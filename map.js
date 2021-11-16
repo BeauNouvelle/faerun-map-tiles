@@ -111,7 +111,8 @@ map.addOverlay(coordPopup);
 
 map.on('pointermove', function (evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-    if (feature.get('style') == 'city') {
+    var style = feature.get('style');
+    if (style == 'city' || style == "town") {
       return feature;
     };
   });
