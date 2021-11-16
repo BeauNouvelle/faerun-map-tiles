@@ -167,6 +167,12 @@ map.on('click', function (evt) {
   }
 });
 
+
+// log coords on click. (useful for creating geojson content)
+map.on('click', function(evt){
+    console.log(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'));
+});
+
 function parse_wiki_html(e) {
   var t = $("<div></div>").html(e);
   t.find("a").each(function() {
