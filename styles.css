@@ -59,7 +59,7 @@ html, body, #map {
    background-color:black;
    height:100%;
    float: right;
-   width: 3px;
+   width: 5px;
    cursor: col-resize;
 }
 #ghostbar{
