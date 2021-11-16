@@ -2,6 +2,7 @@ const regionStyle = new ol.style.Style({
   text: new ol.style.Text({
     font: 'bold 18px "Open Sans", "Arial Unicode MS", "sans-serif"',
     placement: 'line',
+    overflow: true,
     fill: new ol.style.Fill({
       color: 'black',
     }),
