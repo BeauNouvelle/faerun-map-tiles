@@ -159,7 +159,7 @@ map.on('click', function (evt) {
         $('#overlay').html(t);
         $('#referencelink').html("<a href='https://forgottenrealms.fandom.com/wiki/" + name + "'>Reference</a>");
         document.getElementById("sidebar").style.display = "block";
-        $("#overlay").animate({ scrollTop: 0 }, "fast");
+        $("#overlay").scrollTop(0);
       }
     });
   } else {
@@ -170,7 +170,7 @@ map.on('click', function (evt) {
 
 // log coords on click. (useful for creating geojson content)
 map.on('click', function(evt){
-    console.log(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'));
+  console.log(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'));
 });
 
 function parse_wiki_html(e) {
@@ -208,8 +208,7 @@ $('#dragbar').mousedown(function(e){
 });
 
 $(document).mouseup(function(e){
- if (dragging) 
- {
+ if (dragging) {
    $('#sidebar').css("width",e.pageX+2);
            // $('#main').css("left",e.pageX+2);
            $('#ghostbar').remove();
