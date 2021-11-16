@@ -146,7 +146,7 @@ map.addOverlay(featPopup);
 
 function canShowWiki(feature) {
   var style = feature.get('style');
-  return style == "city" || style == "town"
+  return style == "city" || style == "town" || style == "POI"
 }
 
 // display overlay on Feature click
