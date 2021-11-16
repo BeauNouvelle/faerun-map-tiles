@@ -60,7 +60,6 @@ var map = new ol.Map({
       return regionStyle;
     },
   }),
-
   new ol.layer.Vector({
     declutter: true,
     source: new ol.source.Vector({
@@ -73,10 +72,25 @@ var map = new ol.Map({
           anchor: [0.5, 30],
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
-            // we will need more of these for different types of pois. Put this in the geojson.
-            // Also need mouse over on markers.
-            src: 'https://img.icons8.com/external-wanicon-lineal-color-wanicon/40/000000/external-castle-fairytale-wanicon-lineal-color-wanicon.png'
-          })
+          src: icon_source(feature)
+        })
+      });
+    }
+  }),
+  new ol.layer.Vector({
+    declutter: true,
+    source: new ol.source.Vector({
+      format: new ol.format.GeoJSON(),
+      url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/pois.geojson',
+    }),
+    style: function(feature) {
+      return new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 30],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          src: icon_source(feature)
+        })
       });
     }
   })
@@ -172,6 +186,17 @@ map.on('click', function (evt) {
 map.on('click', function(evt){
   console.log(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'));
 });
+
+function icon_source(feature) {
+  switch(feature.get('style')) {
+    case 'city':
+      return 'https://img.icons8.com/external-wanicon-lineal-color-wanicon/40/000000/external-castle-fairytale-wanicon-lineal-color-wanicon.png'
+    case 'town':
+      return 'https://img.icons8.com/color/40/000000/village.png'
+    default:
+      return 'https://img.icons8.com/fluency/30/000000/sphere.png'
+  }
+}
 
 function parse_wiki_html(e) {
   var t = $("<div></div>").html(e);
