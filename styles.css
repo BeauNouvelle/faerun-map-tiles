@@ -6,20 +6,12 @@ html, body, #map {
   height: 100%;
   width: 100%;
 }
-.popover-body {
+/*.popover-body {
   /*min-width: 500px;*/
   overflow-y: auto;
   overflow-x: auto;
   /*white-space:pre-wrap;*/
-}
-
-.pi-image-thumbnail {
-  width: 50%;
-  height: auto;
-  display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
+}*/
 
 .pi-caption {
   width: 100%;
@@ -30,13 +22,20 @@ html, body, #map {
   display: none; /* Hidden by default */
 }
 
+#main{
+   background-color: BurlyWood;
+   float: right;
+   position: absolute;
+   height:100%;
+   right: 0;
+   left:0px;
+}
+
 #overlay {
-  position: fixed; /* Sit on top of the page content */
-  display: none; /* Hidden by default */
-  /*width: 25%; */
-  max-width: 30%;
-  height: 100%; 
-  top: 0; 
+  /*position: fixed;  Sit on top of the page content */
+  /*max-width: 30%;*/
+  height: 100%;
+  top: 0;
   left: 0;
   padding: 25px;
   overflow: auto;
@@ -45,3 +44,27 @@ html, body, #map {
   background-color: white; /* Black background with opacity */
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
 }
+
+#sidebar{
+  display: none;  /* Hidden by default */    
+   width:30%;
+   float: left;
+   position: absolute;
+   height:100%;
+   overflow-y: hidden;
+}
+
+#dragbar{
+   background-color:black;
+   height:100%;
+   float: right;
+   width: 3px;
+   cursor: col-resize;
+}
+#ghostbar{
+    width:3px;
+    background-color:#000;
+    opacity:0.5;
+    position:absolute;
+    cursor: col-resize;
+    z-index:999}

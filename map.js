@@ -146,11 +146,12 @@ map.on('click', function (evt) {
         var n = o.parse.text["*"];
         var t = parse_wiki_html(n);
         $('#overlay').html(t);
-        document.getElementById("overlay").style.display = "block";
+        document.getElementById("sidebar").style.display = "block";
+        $("#overlay").animate({ scrollTop: 0 }, "fast");
       }
     });
   } else {
-    document.getElementById("overlay").style.display = "none";
+    document.getElementById("sidebar").style.display = "none";
   }
 });
 
@@ -176,3 +177,38 @@ function details_in_popup(link, div_id) {
   });
   return '<div id="'+ div_id +'">Loading...</div>';
 }
+
+
+var i = 0;
+var dragging = false;
+   $('#dragbar').mousedown(function(e){
+       e.preventDefault();
+       
+       dragging = true;
+       var main = $('#main');
+       var ghostbar = $('<div>',
+                        {id:'ghostbar',
+                         css: {
+                                height: main.outerHeight(),
+                                top: main.offset().top,
+                                left: main.offset().left
+                               }
+                        }).appendTo('body');
+       
+        $(document).mousemove(function(e){
+          ghostbar.css("left",e.pageX+2);
+       });
+    });
+
+   $(document).mouseup(function(e){
+       if (dragging) 
+       {
+           $('#sidebar').css("width",e.pageX+2);
+           $('#main').css("left",e.pageX+2);
+           $('#ghostbar').remove();
+           $(document).unbind('mousemove');
+           dragging = false;
+       }
+    });
+
+
