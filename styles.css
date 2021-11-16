@@ -7,6 +7,30 @@ html, body, #map {
   width: 100%;
 }
 
+a:link {
+  color: #5c463e; 
+  background-color: transparent; 
+  text-decoration: none;
+}
+
+a:visited {
+  color: #5c463e;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #5c463e;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: #5c463e;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
 .tooltip {
   pointer-events: none;
 }
@@ -25,6 +49,20 @@ html, body, #map {
 
 .dablink, .pi-navigation, #scroll-banner, .toc, .thumbcaption, .thumb, .noprint, #Gallery, #gallery-0, #External_Links, .pi-caption, .pi-image-thumbnail, .lfr-link, img {
   display: none; /* Hidden by default */
+}
+
+.pi-group {
+  margin-bottom: 30px;
+}
+.pi-header {
+  background-color: lightgray;
+  padding-left: 10px;
+  margin-left: -25px;
+  margin-right: -25px;
+}
+.pi-title {
+  margin-top: -30px;
+  text-align: center;
 }
 
 #main{
@@ -79,3 +117,4 @@ html, body, #map {
     position:absolute;
     cursor: col-resize;
     z-index:999}
+
