@@ -159,8 +159,6 @@ map.on('click', function (evt) {
 
   if (feature) {
     var name = feature.get('name');
-    var style = feature.get('style');
-
     $.ajax({
       url: 'https://forgottenrealms.fandom.com/api.php',
       dataType: 'jsonp',
