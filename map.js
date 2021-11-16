@@ -146,7 +146,7 @@ map.addOverlay(featPopup);
 
 function canShowWiki(feature) {
   var style = feature.get('style');
-  return style == "city" || style == "town" || style == "POI"
+  return style == "city" || style == "town" || style == "castle"
 }
 
 // display overlay on Feature click
@@ -197,6 +197,8 @@ function icon_source(feature) {
       return 'https://img.icons8.com/external-wanicon-lineal-color-wanicon/40/000000/external-castle-fairytale-wanicon-lineal-color-wanicon.png'
     case "town":
       return 'https://img.icons8.com/color/40/000000/village.png'
+    case "castle":
+      return 'https://img.icons8.com/color/36/000000/palace.png'
     default:
       return 'https://img.icons8.com/fluency/30/000000/sphere.png'
   }
