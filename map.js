@@ -62,7 +62,7 @@ var map = new ol.Map({
     },
   }),
   new ol.layer.Vector({
-    declutter: true,
+    declutter: false,
     source: new ol.source.Vector({
       format: new ol.format.GeoJSON(),
       url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/cities.geojson',
@@ -74,8 +74,7 @@ var map = new ol.Map({
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
           src: icon_source(feature)
-        }),
-        zIndex: 0
+        })
       });
     }
   }),
@@ -92,8 +91,7 @@ var map = new ol.Map({
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
           src: icon_source(feature)
-        }),
-        zIndex: 100
+        })
       });
     }
   })
