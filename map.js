@@ -77,23 +77,23 @@ var map = new ol.Map({
       });
     }
   }),
-  new ol.layer.Vector({
-    declutter: true,
-    source: new ol.source.Vector({
-      format: new ol.format.GeoJSON(),
-      url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/pois.geojson',
-    }),
-    style: function(feature) {
-      return new ol.style.Style({
-        image: new ol.style.Icon({
-          anchor: [0.5, 30],
-          anchorXUnits: 'fraction',
-          anchorYUnits: 'pixels',
-          src: icon_source(feature)
-        })
-      });
-    }
-  })
+  // new ol.layer.Vector({
+  //   declutter: true,
+  //   source: new ol.source.Vector({
+  //     format: new ol.format.GeoJSON(),
+  //     url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/pois.geojson',
+  //   }),
+  //   style: function(feature) {
+  //     return new ol.style.Style({
+  //       image: new ol.style.Icon({
+  //         anchor: [0.5, 30],
+  //         anchorXUnits: 'fraction',
+  //         anchorYUnits: 'pixels',
+  //         src: icon_source(feature)
+  //       })
+  //     });
+  //   }
+  // })
   ],
   view: new ol.View({
     center: ol.proj.fromLonLat([-74.76219340955835, 38.689597526996266]),
