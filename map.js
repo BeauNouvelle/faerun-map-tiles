@@ -204,7 +204,7 @@ var dragging = false;
        if (dragging) 
        {
            $('#sidebar').css("width",e.pageX+2);
-           $('#main').css("left",e.pageX+2);
+           // $('#main').css("left",e.pageX+2);
            $('#ghostbar').remove();
            $(document).unbind('mousemove');
            dragging = false;
