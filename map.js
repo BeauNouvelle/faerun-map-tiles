@@ -62,10 +62,10 @@ var map = new ol.Map({
     },
   }),
   new ol.layer.Vector({
-    declutter: false,
+    declutter: true,
     source: new ol.source.Vector({
       format: new ol.format.GeoJSON(),
-      url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/cities.geojson',
+      url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/pois.geojson',
     }),
     style: function(feature) {
       return new ol.style.Style({
@@ -82,7 +82,7 @@ var map = new ol.Map({
     declutter: true,
     source: new ol.source.Vector({
       format: new ol.format.GeoJSON(),
-      url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/pois.geojson',
+      url: 'https://raw.githubusercontent.com/BeauNouvelle/toril-geojson/main/cities.geojson',
     }),
     style: function(feature) {
       return new ol.style.Style({
