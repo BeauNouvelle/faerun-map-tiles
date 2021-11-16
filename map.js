@@ -111,8 +111,7 @@ map.addOverlay(coordPopup);
 
 map.on('pointermove', function (evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-    var style = feature.get('style');
-    if (style == 'city' || style == "town") {
+    if (canShowWiki(feature)) {
       return feature;
     };
   });
@@ -145,10 +144,15 @@ var featPopup = new ol.Overlay({
 });
 map.addOverlay(featPopup);
 
+function canShowWiki(feature) {
+  var style = feature.get('style');
+  return style == "city" || style == "town"
+}
+
 // display overlay on Feature click
 map.on('click', function (evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-    if (feature.get('style') == 'city') {
+    if (canShowWiki(feature)) {
       return feature;
     };
   });
