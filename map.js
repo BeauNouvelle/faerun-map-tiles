@@ -146,6 +146,7 @@ map.on('click', function (evt) {
         var n = o.parse.text["*"];
         var t = parse_wiki_html(n);
         $('#overlay').html(t);
+        $('#referencelink').html("<a href='https://forgottenrealms.fandom.com/wiki/" + name + "'>Reference</a>");
         document.getElementById("sidebar").style.display = "block";
         $("#overlay").animate({ scrollTop: 0 }, "fast");
       }
@@ -167,17 +168,6 @@ function parse_wiki_html(e) {
     })
   }), t.find("sup").remove(), t.find(".mw-ext-cite-error").remove(), t.find(".mw-editsection").remove(), t
 }
-
-function details_in_popup(link, div_id) {
-  $.ajax({
-    url: link,
-    success: function(response){
-      $('#'+div_id).html(response);
-    }
-  });
-  return '<div id="'+ div_id +'">Loading...</div>';
-}
-
 
 var i = 0;
 var dragging = false;
