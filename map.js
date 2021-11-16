@@ -70,12 +70,12 @@ var map = new ol.Map({
     style: function(feature) {
       return new ol.style.Style({
         image: new ol.style.Icon({
-          anchor: [0.5, 46],
+          anchor: [0.5, 30],
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
             // we will need more of these for different types of pois. Put this in the geojson.
             // Also need mouse over on markers.
-            src: 'https://openlayers.org/en/latest/examples/data/icon.png'
+            src: 'https://img.icons8.com/external-wanicon-lineal-color-wanicon/40/000000/external-castle-fairytale-wanicon-lineal-color-wanicon.png'
           })
       });
     }
