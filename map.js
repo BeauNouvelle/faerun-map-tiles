@@ -73,6 +73,7 @@ var map = new ol.Map({
           anchor: [0.5, 30],
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
+          size: [30, 30],
           src: icon_source(feature)
         })
       });
@@ -90,6 +91,7 @@ var map = new ol.Map({
           anchor: [0.5, 30],
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
+          size: [30, 30],
           src: icon_source(feature)
         })
       });
