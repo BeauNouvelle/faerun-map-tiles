@@ -149,7 +149,7 @@ map.addOverlay(featPopup);
 
 function canShowWiki(feature) {
   var style = feature.get('style');
-  return style == "city" || style == "town" || style == "castle"
+  return style == "city" || style == "town" || style == "castle" || style == "capital"
 }
 
 // display overlay on Feature click
