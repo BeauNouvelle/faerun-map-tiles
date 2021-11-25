@@ -7,7 +7,7 @@ const regionStyle = new ol.style.Style({
       color: 'black',
     }),
     stroke: new ol.style.Stroke({
-      color: 'red',
+      color: '#5A9E62',
       width: 2,
     })
   }),
