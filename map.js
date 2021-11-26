@@ -96,7 +96,10 @@ var map = new ol.Map({
         })
       });
     }
-  })
+  // }),
+  // new ol.layer.Tile({
+  //   source: new ol.source.TileDebug(),
+  }),
   ],
   view: new ol.View({
     center: ol.proj.fromLonLat([-74.76219340955835, 38.689597526996266]),
